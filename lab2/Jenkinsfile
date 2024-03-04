@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // Get code from a GitHub repository
+                git url: 'https://github.com/Wheatly99/The-simplest-machine-learning-pipeline.git', branch: 'main',
+                credentialsId: '705b33f5-762e-4e9a-a3f0-49f95f95dead'
+                
+                sh 'chmod u+x ./*'
+
+                sh "./data_creation.py"
+                
+                sh "./model_preprocessing.py"
+                
+                sh "./model_preparation.py"
+                
+                sh "./model_testing.py"
+            }
+        }
+    }
+}

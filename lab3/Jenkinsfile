@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('65a94b33-9c5e-425a-a670-ce80ad551d57')
+    }
+    stages {
+        stage('Get repository') {
+            steps {
+                git url: 'https://github.com/Wheatly99/The-simplest-machine-learning-pipeline.git', branch: 'main',
+                credentialsId: '705b33f5-762e-4e9a-a3f0-49f95f95dead'
+            } 
+        }
+        stage('Build docker') {
+            steps {
+                sh 'docker build -t wheatly/pipeline -f lab3/Dockerfile .'
+            } 
+        }
+        stage('Run docker') {
+            steps {
+                sh 'docker run wheatly/pipeline'
+            } 
+        }
+        stage('Login docker') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            } 
+        }
+        stage('Push image') {
+            steps {
+                sh "docker push wheatly/pipeline"
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
+        }
+    } 
+}
