@@ -1,24 +1,38 @@
 import joblib
 import pandas as pd
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import mean_absolute_error
 
 
-def test_upload_file():
+model = joblib.load("model.pkl")
 
-    model = joblib.load("model.pkl")
+def test_norm1_file():
 
-    df1 = pd.read_excel('data/data2.xlsx')
-    df2 = pd.read_excel('data/data3.xlsx')
+    df = pd.read_excel('data/data2.xlsx')
+
+    predict = model.predict(df[['x', 'y']])
+
+    score = mean_absolute_error(predict, df.target)
+
+    assert score < 0.3
+
+
+def test_norm2_file():
+
+    df = pd.read_excel('data/data3.xlsx')
+
+    predict = model.predict(df[['x', 'y']])
+
+    score = mean_absolute_error(predict, df.target)
+
+    assert score < 0.3
+
+
+def test_noise_file():
+
     df_noise = pd.read_excel('data/data_noise.xlsx')
 
-    predict1 = model.predict(df1[['x', 'y']])
-    predict2 = model.predict(df2[['x', 'y']])
     predict_noise = model.predict(df_noise[['x', 'y']])
 
-    score1 = accuracy_score(predict1, df1.z)
-    score2 = accuracy_score(predict2, df2.z)
-    score_noise = accuracy_score(predict_noise, df_noise.z)
+    score_noise = mean_absolute_error(predict_noise, df_noise.target)
 
-    assert score1 > 80
-    assert score2 > 80
-    assert score_noise > 80
+    assert score_noise < 0.3

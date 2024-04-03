@@ -1,9 +1,13 @@
 import pandas as pd
 import numpy as np
+import os
 
 np.random.seed(0)
 
 def create_new_data():
+
+    os.mkdir('data')
+
     x1 = np.linspace(2, 8, 100)
     y1 = x1 + np.random.random(100) - 1
     z1 = x1 + y1 + np.random.random(100)
