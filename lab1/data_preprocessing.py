@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
