@@ -17,6 +17,8 @@ def creating_data():
     Path("train").mkdir(parents=True, exist_ok=True)
     Path("test").mkdir(parents=True, exist_ok=True)
 
+    print(y_testasdasd)
+
     X_train.to_csv('train/train_data.csv', index=False, sep='~')
     X_test.to_csv('test/test_data.csv', index=False, sep='~')
 
