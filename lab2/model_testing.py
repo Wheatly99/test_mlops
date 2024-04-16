@@ -11,7 +11,7 @@ def predict():
 
     pred = model.predict(df_test.drop(columns={'target'}))
 
-    print(f'Accuracy - {accuracy_score(pred, df_test.target)}')
+    print(f'Model test accuracy is: {accuracy_score(pred, df_test.target)}')
 
 if __name__ == '__main__':
     predict()
