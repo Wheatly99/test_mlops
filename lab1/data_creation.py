@@ -7,9 +7,6 @@ from pathlib import Path
 
 def creating_data():
 
-    while True:
-        continue
-
     iris = load_iris()
     df = pd.DataFrame(data=np.c_[iris['data'], iris['target']], columns=iris['feature_names'] + ['target'])
     X_train, X_test, y_train, y_test = train_test_split(df.drop(columns={'target'}), df.target,
